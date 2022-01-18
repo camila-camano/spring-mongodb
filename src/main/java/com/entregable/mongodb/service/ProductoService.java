@@ -9,4 +9,7 @@ public interface ProductoService {
     Producto createProducto(Producto producto);
     Producto findByNombre(String nombre);
     List<Producto> findAll();
+    void deleteAll();
+    void deleteByName(String nombre);
+    void updateStockOf(String nombre, int stock);
 }
