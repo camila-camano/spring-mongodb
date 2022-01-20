@@ -12,4 +12,6 @@ public interface ProductoService {
     void deleteAll();
     void deleteByName(String nombre);
     void updateStockOf(String nombre, int stock);
+    Producto createProductoSerializado(Producto producto);
+    Producto createProductoSerializadoMap(Producto producto);
 }

@@ -60,5 +60,16 @@ public class ProductoController {
         service.updateStockOf(name, stock);
     }
 
+    @PostMapping("/serialize")
+    public void serialize(@RequestBody Producto producto){
+        logger.info("POST serializar recibido. Creando producto serializado.");
+        service.createProductoSerializado(producto);
+    }
+
+    @PostMapping("/serialize-map")
+    public void serializeMap(@RequestBody Producto producto){
+        logger.info("POST serializando producto como mapa.");
+        service.createProductoSerializadoMap(producto);
+    }
 
 }
