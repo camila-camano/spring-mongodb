@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 @RestController
-@RequestMapping("/mongo")
+@RequestMapping("/coder-house")
 public class ProductoController {
 
     @Autowired
@@ -23,6 +23,13 @@ public class ProductoController {
         logger.info("POST request recibido.");
         return service.createProducto(p);
     }
+
+    @GetMapping("/mensajes/example")
+    public String getMensajesString() {
+        logger.info("GET Request recibido string");
+        return "Ejemplo de respuesta 8082";
+    }
+
 
     @GetMapping("/getall")
     public List<Producto> findProductos(){
