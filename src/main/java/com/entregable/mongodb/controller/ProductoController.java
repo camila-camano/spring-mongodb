@@ -2,6 +2,10 @@ package com.entregable.mongodb.controller;
 
 import com.entregable.mongodb.model.Producto;
 import com.entregable.mongodb.service.ProductoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +21,17 @@ public class ProductoController {
     ProductoService service;
 
     Logger logger = LogManager.getLogger(ProductoController.class);
+
+
+    @Operation(summary = "Método para crear una persona", description = "Permite crear personas en Coderhouse", tags = {"coder-house"})
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Se creó a la persona"),
+                    @ApiResponse(responseCode = "400", description = "Hay un error en el request", content = @Content),
+                    @ApiResponse(responseCode = "500", description = "Ocurrió un error inesperado", content = @Content)
+            }
+    ) //http://localhost:8081/swagger-ui/index.html#/
+
 
     @PostMapping("/post")
     public Producto createProducto(@RequestBody Producto p){
