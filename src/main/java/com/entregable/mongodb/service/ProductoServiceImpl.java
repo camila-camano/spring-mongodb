@@ -36,10 +36,21 @@ public class ProductoServiceImpl implements ProductoService{
         return repository.save(producto);
     }
 
+    //@Override
+    //public Producto findByNombre(String nombre){
+      //  return repository.findByName(nombre);
+    //}
+
     @Override
-    public Producto findByNombre(String nombre){
-        return repository.findByName(nombre);
+    public String findByNombre(String nombre){
+        if(repository.findByName(nombre) != null){
+            return "Existe" + nombre;
+        }else {
+            return "NO existe" + nombre;
+        }
+
     }
+
 
     @Override
     public List<Producto> findAll(){return repository.findAll();}
