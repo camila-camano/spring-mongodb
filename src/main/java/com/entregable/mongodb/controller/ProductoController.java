@@ -36,12 +36,19 @@ public class ProductoController {
         logger.info("GET ALL request recibido.");
         return service.findAll();}
 
+    /*
     @GetMapping("/get")
     public Producto findByName(@RequestParam String name) {
         logger.info("GET request recibido de producto: {} ", name);
         return service.findByNombre(name);
     }
+*/
 
+    @GetMapping("/getstring")
+    public String findByName(@RequestParam String name){
+        logger.info("GET request recibido de producto: {} ", name);
+        return service.findByNombre(name);
+    }
 
     @PutMapping("/put")
     public Producto updateByName(@RequestParam String name, @RequestBody Producto p){
