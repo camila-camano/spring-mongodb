@@ -7,8 +7,8 @@ import java.util.List;
 public interface ProductoService {
 
     Producto createProducto(Producto producto);
-   // Producto findByNombre(String nombre);
-    String findByNombre(String nombre);
+    Producto findByNombre(String nombre);
+    //String findByNombre(String nombre);
 
     List<Producto> findAll();
     void deleteAll();

@@ -36,11 +36,12 @@ public class ProductoServiceImpl implements ProductoService{
         return repository.save(producto);
     }
 
-    //@Override
-    //public Producto findByNombre(String nombre){
-      //  return repository.findByName(nombre);
-    //}
+    @Override
+    public Producto findByNombre(String nombre){
+        return repository.findByName(nombre);
+    }
 
+    /*
     @Override
     public String findByNombre(String nombre){
         if(repository.findByName(nombre) != null){
@@ -50,6 +51,8 @@ public class ProductoServiceImpl implements ProductoService{
         }
 
     }
+
+     */
 
 
     @Override

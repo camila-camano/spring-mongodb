@@ -1,9 +1,14 @@
 package com.entregable.mongodb.model;
 
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("productos")
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
 public class Producto {
 
     @Id

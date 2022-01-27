@@ -33,62 +33,14 @@ public class ProductoController {
     ) //http://localhost:8081/swagger-ui/index.html#/
 
 
+    // POSTs
     @PostMapping("/post")
     public Producto createProducto(@RequestBody Producto p){
         logger.info("POST request recibido.");
         return service.createProducto(p);
     }
 
-    @GetMapping("/mensajes/example")
-    public String getMensajesString() {
-        logger.info("GET Request recibido string");
-        return "Ejemplo de respuesta 8082";
-    }
-
-
-    @GetMapping("/getall")
-    public List<Producto> findProductos(){
-        logger.info("GET ALL request recibido.");
-        return service.findAll();}
-
-    /*
-    @GetMapping("/get")
-    public Producto findByName(@RequestParam String name) {
-        logger.info("GET request recibido de producto: {} ", name);
-        return service.findByNombre(name);
-    }
-*/
-
-    @GetMapping("/getstring")
-    public String findByName(@RequestParam String name){
-        logger.info("GET request recibido de producto: {} ", name);
-        return service.findByNombre(name);
-    }
-
-    @PutMapping("/put")
-    public Producto updateByName(@RequestParam String name, @RequestBody Producto p){
-        logger.info("PUT request recibido. Actualizando producto: {}", name);
-        return p;
-    }
-
-    @DeleteMapping("/deleteall")
-    public void deleteAll(){
-        logger.info("DELETE ALL request recibido.");
-        service.deleteAll();
-    }
-
-    @DeleteMapping("/deleteone")
-    public  void deleteByName(@RequestParam String name){
-        logger.info("DELETE producto de nombre: {}", name);
-        service.deleteByName(name);
-    }
-
-    @PutMapping("/update")
-    public void updateStockOf(@RequestParam String name, @RequestParam int stock){
-        logger.info("PUT recibido, producto a modificar: {} ", name);
-        service.updateStockOf(name, stock);
-    }
-
+        // Serial
     @PostMapping("/serialize")
     public void serialize(@RequestBody Producto producto){
         logger.info("POST serializar recibido. Creando producto serializado.");
@@ -100,5 +52,33 @@ public class ProductoController {
         logger.info("POST serializando producto como mapa.");
         service.createProductoSerializadoMap(producto);
     }
+
+    // GETs
+    @GetMapping("/getall")
+    public List<Producto> findProductos(){
+        logger.info("GET ALL request recibido.");
+        return service.findAll();}
+
+
+    @GetMapping("/get")
+    public Producto findByName(@RequestParam String name) {
+        logger.info("GET request recibido de producto: {} ", name);
+        return service.findByNombre(name);
+    }
+
+    // PUTs
+    @PutMapping("/put/stock")
+    public void updateStockOf(@RequestParam String name, @RequestParam int stock){
+        logger.info("PUT recibido, producto a modificar: {} ", name);
+        service.updateStockOf(name, stock);
+    }
+
+    // DELETEs
+    @DeleteMapping("/deleteone")
+    public void deleteByName(@RequestParam String name){
+        logger.info("DELETE producto de nombre: {}", name);
+        service.deleteByName(name);
+    }
+
 
 }
