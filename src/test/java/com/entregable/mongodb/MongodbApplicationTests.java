@@ -3,8 +3,13 @@ package com.entregable.mongodb;
 import com.entregable.mongodb.controller.ProductoController;
 import com.entregable.mongodb.model.Producto;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,8 +18,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.util.Assert;
-
+import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -32,6 +38,9 @@ class MongodbApplicationTests {
 	private TestRestTemplate restTemplate;
 
 	//Before y After de los tests
+
+	long start = System.nanoTime();
+
 	@BeforeAll
 	static void setup() {
 		System.out.println("@BeforeAll - Ejecutando tests...");
@@ -45,6 +54,7 @@ class MongodbApplicationTests {
 	//Fin Befores
 
 
+	// Test Rest Template
 	//Tests GET
 	@Test
 	public void getAllProductos() throws Exception {
@@ -66,12 +76,12 @@ class MongodbApplicationTests {
 
 	@Test
 	public void getProductoByName() {
-		var uriTest = String.format("%s%s", url, "get?name=fideos");
+		var uriTest = String.format("%s%s", url, "get?name=celular");
 		var messageResult = this.restTemplate.getForObject(uriTest, Producto.class);
 
 		Assert.notNull(messageResult, "Producto no nulo.");
-		Assert.isTrue(messageResult.getNombre().equals("fideos"), "Nombre del producto OK");
-		Assert.isTrue(messageResult.getCategoria().equals("harinas"), "Categoria del producto OK");
+		Assert.isTrue(messageResult.getNombre().equals("celular"), "Nombre del producto OK");
+		Assert.isTrue(messageResult.getCategoria().equals("tecno"), "Categoria del producto OK");
 	}
 
 
@@ -92,14 +102,14 @@ class MongodbApplicationTests {
 	// Tests PUT
 	@Test
 	public void updateStock(){
-		var uriTestPut = String.format("%s%s", url, "put/stock?name=fideos&stock=20");
+		var uriTestPut = String.format("%s%s", url, "put/stock?name=celular&stock=20");
 		this.restTemplate.put(uriTestPut,Producto.class);
 
-		var uriTestGet = String.format("%s%s", url, "get?name=fideos");
+		var uriTestGet = String.format("%s%s", url, "get?name=celular");
 		var messageResult = this.restTemplate.getForObject(uriTestGet, Producto.class);
 
 		Assert.notNull(messageResult, "Producto no nulo.");
-		Assert.isTrue(messageResult.getNombre().equals("fideos"), "Nombre del producto OK");
+		Assert.isTrue(messageResult.getNombre().equals("celular"), "Nombre del producto OK");
 		Assert.isTrue(messageResult.getStock() == 20, "Stock del producto actualizado.");
 	}
 
@@ -116,6 +126,33 @@ class MongodbApplicationTests {
 		Assert.isNull(messageResult, "Producto nulo");
 	}
 
+
+	// Tests HttRequest
+
+	@Test
+	public void getAllMessagesHttpRequestStatus() throws IOException {
+		var uriTest = String.format("%s%s", url, "getall");
+
+		var request = new HttpGet(uriTest);
+		var httpResponse = HttpClientBuilder.create().build().execute(request);
+
+		Assert.isTrue(httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK, "Response status OK");
+	}
+
+	@Test
+	public void getAllMessagesHttpRequestPayload() throws IOException {
+		var uriTest = String.format("%s%s", url, "getall");
+
+		var request = new HttpGet(uriTest);
+		var httpResponse = HttpClientBuilder.create().build().execute(request);
+
+		String content = EntityUtils.toString(httpResponse.getEntity());
+		var messageResult = objectMapper.readValue(content, List.class);
+
+		Assert.notNull(messageResult, "Lista de mensajes no nula");
+		Assert.notEmpty(messageResult, "Lista de mensajes con elementos");
+		Assert.isTrue(messageResult.size() == 15, "Tamaño de la lista es de 13");
+	}
 
 
 }
