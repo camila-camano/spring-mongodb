@@ -1,0 +1,23 @@
+version: "3"
+services:
+  mongo-coderhouse:
+    image: mongo:latest
+    networks:
+      - gateway
+    container_name: mongo-coderhouse1
+    ports:
+      - 27017:27017
+  patterns-factory:
+    depends_on:
+      - mongo-coderhouse
+    build: .
+    container_name: patterns-factory
+    networks:
+      - gateway
+    ports:
+      - 8086:8080
+    links:
+      - mongo-coderhouse
+networks:
+  gateway:
+    driver: bridge

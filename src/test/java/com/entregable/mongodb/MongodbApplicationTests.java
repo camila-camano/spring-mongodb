@@ -9,6 +9,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.aspectj.lang.annotation.After;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,13 +38,16 @@ class MongodbApplicationTests {
 	@Autowired
 	private TestRestTemplate restTemplate;
 
-	//Before y After de los tests
+	//Befores de los tests
 
 	long start = System.nanoTime();
 
 	@BeforeAll
 	static void setup() {
 		System.out.println("@BeforeAll - Ejecutando tests...");
+
+		long start = System.nanoTime();
+		System.out.println("Tiempo actual: %s" + Long.toString(start));
 	}
 
 	@BeforeEach
@@ -51,6 +55,16 @@ class MongodbApplicationTests {
 		url = String.format("http://localhost:%d/coder-house/", port);
 		System.out.println("@BeforeEach - Seteando url para el test...");
 	}
+
+	/*
+	@AfterAll
+	void finish(){
+		long end = System.nanoTime();
+		System.out.println("Tiempo final: %s" + Long.toString(end ));
+	}
+
+	 */
+
 	//Fin Befores
 
 
